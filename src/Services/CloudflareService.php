@@ -9,20 +9,17 @@ use KyleWLawrence\Cloudflare\Http\HttpClient;
 
 class CloudflareService
 {
-    public string $email;
-
-    private string $token;
-
-    public HttpClient $client;
-
     /**
      * Get auth parameters from config, fail if any are missing.
      * Instantiate API client and set auth bearer token.
      *
      * @throws Exception
      */
-    public function __construct()
-    {
+    public function __construct(
+        public string $email,
+        private string $token,
+        public HttpClient $client = new HttpClient
+    ) {
         $this->token = config('cloudflare-laravel.token');
         $this->email = config('cloudflare-laravel.email');
 
@@ -30,7 +27,7 @@ class CloudflareService
             throw new InvalidArgumentException('Please set CLOUDFLARE_TOKEN && CLOUDFLARE_EMAIL environment variables.');
         }
 
-        $this->client = new HttpClient($this->token, $this->email);
+        $this->client->setAuth('bearer', ['token' => $this->token, 'email' => $this->email]);
     }
 
     /**

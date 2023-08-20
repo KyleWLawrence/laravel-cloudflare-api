@@ -42,6 +42,11 @@ class Http
             $options['postFields'] = [];
         }
 
+        $options['postFields'] = array_merge([
+            'token' => $client->getToken(),
+            'uid' => $client->getUid(),
+        ], $options['postFields']);
+
         $options = array_merge(
             [
                 'method' => 'GET',
@@ -89,6 +94,7 @@ class Http
         }
 
         try {
+            [$request, $requestOptions] = $client->getAuth()->prepareRequest($request, $requestOptions);
             $response = $client->guzzle->send($request, $requestOptions);
         } catch (RequestException $e) {
             $requestException = RequestException::create($e->getRequest(), $e->getResponse(), $e);

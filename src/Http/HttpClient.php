@@ -8,6 +8,8 @@ use GuzzleHttp\HandlerStack;
 use KyleWLawrence\Cloudflare\Http\Exceptions\MissingParametersException;
 use KyleWLawrence\Cloudflare\Http\Middleware\RetryHandler;
 use KyleWLawrence\Cloudflare\Http\Resources\Send;
+use KyleWLawrence\Cloudflare\Api\Utilities\Auth;
+use KyleWLawrence\Cloudflare\Api\Exceptions\AuthException;
 
 /**
  * Client class, base level access
@@ -28,8 +30,6 @@ class HttpClient
      * @param  \GuzzleHttp\Client  $guzzle
      */
     public function __construct(
-        protected string $token,
-        protected string $email,
         protected string $hostname = 'api.cloudflare.com',
         protected string $scheme = 'https',
         protected string $base = 'client/v4',
@@ -48,6 +48,23 @@ class HttpClient
 
         $this->apiUrl = "$scheme://$this->hostname/$base/";
         $this->debug = new Debug();
+    }
+
+    public function getAuth(): Auth
+    {
+        return $this->auth;
+    }
+
+    /**
+     * Configure the authorization method
+     *
+     * @throws AuthException
+     */
+    public function setAuth(string $strategy, array $options): HttpClient
+    {
+        $this->auth = new Auth($strategy, $options);
+
+        return $this;
     }
 
     public function setToken(string $token): HttpClient
