@@ -1,0 +1,40 @@
+{
+    "name": "kylewlawrence/laravel-cloudflare-api",
+    "type": "library",
+    "description": "Laravel API for Cloudflare",
+    "minimum-stability": "beta",
+    "keywords": [
+        "cloudflare",
+        "laravel",
+        "rest-api"
+    ],
+    "homepage": "https://klaw.dev",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "KyleWLawrence",
+            "email": "Kyle@klaw.dev"
+        }
+    ],
+    "require": {
+        "illuminate/support": ">=8.0",
+        "guzzlehttp/guzzle": ">=7.0",
+        "guzzlehttp/psr7": ">=2.0",
+        "php": ">=8.2"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "KyleWLawrence\\Cloudflare\\Providers\\CloudflareServiceProvider"
+            ],
+            "aliases": {
+                "Cloudflare": "KyleWLawrence\\Cloudflare\\Facades\\Cloudflare"
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "KyleWLawrence\\Cloudflare\\": "src"
+        }
+    }
+}
