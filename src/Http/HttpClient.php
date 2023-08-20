@@ -26,6 +26,8 @@ class HttpClient
 
     protected string $apiUrl;
 
+    protected ?string $zone = null;
+
     protected Auth $auth;
 
     /**
@@ -48,7 +50,7 @@ class HttpClient
             $this->guzzle = $guzzle;
         }
 
-        $this->apiUrl = "$scheme://$this->hostname/$base/";
+        $this->apiUrl = $this->setApiUrl();
         $this->debug = new Debug();
     }
 
@@ -103,9 +105,25 @@ class HttpClient
         return $this->apiUrl;
     }
 
+    public function setApiUrl(): HttpClient
+    {
+        $zone = ($this->zone) ? "zones/$zone/" : '';
+        $this->apiUrl = "$scheme://$this->hostname/$base/$zone";
+
+        return $this;
+    }
+
     public function getApiBasePath(): string
     {
         return $this->apiBasePath;
+    }
+
+    public function setZone(?string $zone): HttpClient
+    {
+        $this->zone = $zone;
+        $this->setApiUrl();
+
+        return $this;
     }
 
     /**
