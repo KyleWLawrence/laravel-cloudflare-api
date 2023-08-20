@@ -120,7 +120,7 @@ class HttpClient
         mixed $lastRequestHeaders,
         mixed $lastRequestBody,
         mixed $lastResponseCode,
-        string $lastResponseHeaders,
+        ?string $lastResponseHeaders,
         mixed $lastResponseError
     ): void
     {
