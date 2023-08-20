@@ -42,11 +42,6 @@ class Http
             $options['postFields'] = [];
         }
 
-        $options['postFields'] = array_merge([
-            'token' => $client->getToken(),
-            'uid' => $client->getUid(),
-        ], $options['postFields']);
-
         $options = array_merge(
             [
                 'method' => 'GET',

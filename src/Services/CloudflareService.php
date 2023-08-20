@@ -16,12 +16,12 @@ class CloudflareService
      * @throws Exception
      */
     public function __construct(
-        public string $email,
-        private string $token,
-        public HttpClient $client = new HttpClient
+        public string $email = '',
+        private string $token = '',
+        public HttpClient $client = new HttpClient,
     ) {
-        $this->token = config('cloudflare-laravel.token');
-        $this->email = config('cloudflare-laravel.email');
+        $this->token = ( $this->token ) ? $this->token : config('cloudflare-laravel.token');
+        $this->email = ( $this->email ) ? $this->email : config('cloudflare-laravel.email');
 
         if (! $this->token || ! $this->email) {
             throw new InvalidArgumentException('Please set CLOUDFLARE_TOKEN && CLOUDFLARE_EMAIL environment variables.');

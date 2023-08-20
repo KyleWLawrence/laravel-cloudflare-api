@@ -8,8 +8,8 @@ use GuzzleHttp\HandlerStack;
 use KyleWLawrence\Cloudflare\Http\Exceptions\MissingParametersException;
 use KyleWLawrence\Cloudflare\Http\Middleware\RetryHandler;
 use KyleWLawrence\Cloudflare\Http\Resources\Send;
-use KyleWLawrence\Cloudflare\Api\Utilities\Auth;
-use KyleWLawrence\Cloudflare\Api\Exceptions\AuthException;
+use KyleWLawrence\Cloudflare\Utilities\Auth;
+use KyleWLawrence\Cloudflare\Exceptions\AuthException;
 
 /**
  * Client class, base level access
@@ -25,6 +25,8 @@ class HttpClient
     protected string $apiBasePath = '';
 
     protected string $apiUrl;
+
+    protected Auth $auth;
 
     /**
      * @param  \GuzzleHttp\Client  $guzzle
@@ -66,30 +68,6 @@ class HttpClient
 
         return $this;
     }
-
-    public function setToken(string $token): HttpClient
-    {
-        $this->token = $token;
-
-        return $this;
-    }
-
-     public function setEmail(string $email): HttpClient
-     {
-         $this->email = $email;
-
-         return $this;
-     }
-
-    public function getToken(): string
-    {
-        return $this->token;
-    }
-
-     public function getEmail(): string
-     {
-         return $this->email;
-     }
 
     public function getHeaders(): array
     {
@@ -137,7 +115,7 @@ class HttpClient
         mixed $lastRequestHeaders,
         mixed $lastRequestBody,
         mixed $lastResponseCode,
-        ?string $lastResponseHeaders,
+        mixed $lastResponseHeaders,
         mixed $lastResponseError
     ): void
     {

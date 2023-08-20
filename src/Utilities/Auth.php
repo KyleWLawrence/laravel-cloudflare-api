@@ -1,6 +1,6 @@
 <?php
 
-namespace KyleWLawrence\Cloudflare\Api\Utilities;
+namespace KyleWLawrence\Cloudflare\Utilities;
 
 use KyleWLawrence\Cloudflare\Api\Exceptions\AuthException;
 use Psr\Http\Message\RequestInterface;
@@ -73,9 +73,9 @@ class Auth
     public function prepareRequest(RequestInterface $request, array $requestOptions = []): array
     {
         if ($this->authStrategy === self::BEARER) {
-            $token = $this->authOptions['bearer']['token'];
-            $email = $this->authOptions['bearer']['email'];
-            $request = $request->withAddedHeader('Authorization', " Bearer $bearer")->withAddedHeader('X-Auth-Email', $email);
+            $token = $this->authOptions['token'];
+            $email = $this->authOptions['email'];
+            $request = $request->withAddedHeader('Authorization', " Bearer $token")->withAddedHeader('X-Auth-Email', $email);
         } else {
             throw new AuthException('Please set authentication to send requests.');
         }
