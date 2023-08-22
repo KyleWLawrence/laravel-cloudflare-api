@@ -50,7 +50,7 @@ class HttpClient
             $this->guzzle = $guzzle;
         }
 
-        $this->apiUrl = $this->setApiUrl();
+        $this->setApiUrl();
         $this->debug = new Debug();
     }
 
@@ -107,8 +107,8 @@ class HttpClient
 
     public function setApiUrl(): HttpClient
     {
-        $zone = ($this->zone) ? "zones/$zone/" : '';
-        $this->apiUrl = "$scheme://$this->hostname/$base/$zone";
+        $zone = ($this->zone) ? "zones/$this->zone/" : '';
+        $this->apiUrl = "$this->scheme://$this->hostname/$this->base/$zone";
 
         return $this;
     }
@@ -118,7 +118,7 @@ class HttpClient
         return $this->apiBasePath;
     }
 
-    public function setZone(?string $zone): HttpClient
+    public function setZone(?string $zone = null): HttpClient
     {
         $this->zone = $zone;
         $this->setApiUrl();
@@ -161,7 +161,7 @@ class HttpClient
     public function get(string $endpoint, array $queryParams = []): ?object
     {
         $queryParams = array_merge(
-            ['per_page' => 50],
+            ['per_page' => 100],
             $queryParams,
         );
 
